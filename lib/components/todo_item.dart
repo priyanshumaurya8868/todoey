@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../main.dart';
 import '../models/task.dart';
 
 class TodoItem extends StatelessWidget {
-  TodoItem({required this.task, required this.callback});
+  const TodoItem({required this.task});
 
-  void Function(bool?)? callback;
   final Task task;
 
   @override
@@ -14,12 +16,18 @@ class TodoItem extends StatelessWidget {
         task.title,
         style: TextStyle(
             decoration:
-            task.isDone ? TextDecoration.lineThrough : TextDecoration.none),
+                task.isDone ? TextDecoration.lineThrough : TextDecoration.none),
       ),
       trailing: Checkbox(
-        onChanged: callback,
+        onChanged: (value) {
+          /// required to set listen 'false'  else it will th
+          Provider.of<TaskData>(context, listen: false).updateTask(task);
+        },
         value: task.isDone,
       ),
+      onLongPress: () {
+        Provider.of<TaskData>(context, listen: false).deleteTask(task);
+      },
     );
   }
 }

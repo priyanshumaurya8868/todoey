@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../components/todo_list.dart';
 import '../main.dart';
 import '../models/task.dart';
@@ -19,7 +20,7 @@ class TaskScreen extends StatelessWidget {
             builder: (context) => SingleChildScrollView(
               child: AddTask(
                 callback: (String newTask) {
-                  Provider.of<Data>(context,listen: false).addTaks(
+                  Provider.of<TaskData>(context, listen: false).addTaks(
                     Task(newTask),
                   );
                 },
@@ -60,7 +61,8 @@ class TaskScreen extends StatelessWidget {
                         fontWeight: FontWeight.w700),
                   ),
                   Text(
-                    (Provider.of<Data>(context).data.length).toString() + " Tasks",
+                    (Provider.of<TaskData>(context).data.length).toString() +
+                        " Tasks",
                     style: TextStyle(fontSize: 20.0, color: Colors.white),
                   ),
                 ],
@@ -70,9 +72,11 @@ class TaskScreen extends StatelessWidget {
               flex: 2,
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(30.0),),),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(30.0),
+                  ),
+                ),
                 child: TodoList(),
               ),
             )

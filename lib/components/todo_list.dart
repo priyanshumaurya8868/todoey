@@ -4,30 +4,25 @@ import 'package:todoey/components/todo_item.dart';
 import 'package:todoey/main.dart';
 
 
-class TodoList extends StatefulWidget {
+class TodoList extends StatelessWidget {
   const TodoList({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<TodoList> createState() => _TodoListState();
-}
-
-class _TodoListState extends State<TodoList> {
-  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.all(30.0),
-      itemBuilder: (BuildContext context, int index) {
-        return TodoItem(
-            task: Provider.of<Data>(context).data[index],
-            callback: (bool? newValue) {
-              setState(() {
-                Provider.of<Data>(context).data[index].toggle();
-              });
-            });
+    /// after wrapping this into consumer class, now we don't
+    /// need to write 'Provider.of<TaskData>(context).' repeatedly.
+    return Consumer<TaskData>(
+      builder: (context,taskData,child){
+        return ListView.builder(
+          padding: EdgeInsets.all(30.0),
+          itemBuilder: (BuildContext context, int index) {
+            return TodoItem(task :taskData.data[index]);
+          },
+          itemCount: taskData.data.length,
+        );
       },
-      itemCount: Provider.of<Data>(context).data.length,
     );
   }
 }
